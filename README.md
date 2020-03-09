@@ -78,8 +78,10 @@ Learning the book of Head First Java
       * while 只適合用在不知道要循環幾次的循環上。
 
    3. 增強for 的循環
+   
+   
           ```
- 
+        
              for (String name : nameArray)  {}
 
                 name :    聲明帶有數組單一元素的循環變量；它在循環中會有不同的值
@@ -91,6 +93,86 @@ Learning the book of Head First Java
 
             ```
       
+
+## Chapter 6： 認識Java 的API
+* **比較ArrayList 與一般數組**
+   
+   | 数组            | ArrayList                |  备注      |
+   |-------------------|-----------------------------|----------|
+   |创建时必须确定大小。<br>*new String[2];* |只需要创建此类型的对象，无需指定大小。<br>*new ArrayList<String> ();* |  |
+   |存放对象时必须指定位置(介于0 ~ length -1 )<br>*myList[1] =  b;*      |不必指定位置<br>*MyList.add(b);*      |     |
+
+
+* **運用ArrayList()代替數組改善上一章中的猜字Bug：三次猜同一個數字**
+
+
+* **增加上章猜字遊戲的難度**
+   1. 增加一個7*7 的單元格；
+   2. 3個目標區域， 每個區域佔連續的三個空間；
+   3. 實現方式
+      * DotCom類: 
+      * GameHelper類
+      * DotComBust 類：
+      
+      
+         
+   | 實例變量        | 方法                |  备注      |
+   |----------------|--------------------|------------|
+   | name           |                    |設置DotCom 的名稱 |
+   | locationCells  |                    |設置DotCom 的區域|
+   |                |checkYourself       |判斷是否被擊中？|
+
+
+   | 實例變量        | 方法                |  备注      |
+   |----------------|--------------------|------------|
+   |                |getUserInput        |獲取user 鍵盤猜的單元格地址|
+   |                |placeDotCom         |隨機獲取每個DotCom佔據的單元格空間|
+
+
+   | 實例變量        | 方法                |  备注      |
+   |----------------|--------------------|------------|
+   | GameHelper 對象        |                    |調用該對象的方法 |
+   | DotCom的ArrayList集合  |                    |存放需要猜測的三個DotCom地址|
+   | numOfGuesses          |                    |累加user 猜的次數     |
+   |                   |setUpGame       |初始化程式<br>創建三個DotCom 對象並放到ArrayList集合中<br>隨機設置三個DotCom 的區域|
+   |                  |startPlaying      |獲取user 的輸入位置並判斷是否正確？ |
+   |                  |checkUserGuess    |判斷目標區域與user 輸入的區域是否一致？|
+   |                  |finishGame        |返回用戶猜的次數|  
+
+
+   
+
+
+
+  
+
+
+  
+
+   
+
+
+
+   
+
+        
+
+      
+
+
+   
+
+
+    
+
+     
+     
+      
+
+
+
+
+
 
   
 

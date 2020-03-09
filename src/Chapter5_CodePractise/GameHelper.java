@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 // 人機交互的功能， user 從鍵盤錄入要猜的地址
-public class GameHelper {
+class GameHelper {
 	public String getUserInput(String prompt) {
 		String inputLine = null;
 		System.out.print(prompt + " ");
