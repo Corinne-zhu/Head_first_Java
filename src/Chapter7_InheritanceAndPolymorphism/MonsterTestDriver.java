@@ -1,4 +1,4 @@
-package Chapter7_InheritAndPolymorphism;
+package Chapter7_InheritanceAndPolymorphism;
 
 public class MonsterTestDriver {
 
@@ -39,5 +39,7 @@ class Dragon extends Monster{
 		return true;
 
 	}
+
+
 
 }

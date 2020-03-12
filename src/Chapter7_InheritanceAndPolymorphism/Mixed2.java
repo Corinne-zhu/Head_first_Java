@@ -1,4 +1,4 @@
-package Chapter7_InheritAndPolymorphism;
+package Chapter7_InheritanceAndPolymorphism;
 
 public class Mixed2 {
 
