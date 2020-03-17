@@ -263,6 +263,164 @@ Learning the book of Head First Java
      - 只有在需要某類的特殊化版本時，以覆蓋或增加新的方法來繼承現有的類
      - 當你需要定義一群子類的模板，又不想讓程序員初始化此模板時， 設計出抽象的類給他們用
      - 如果想要定義出類可以扮演的角色，使用接口
+
+
+## Chapter 9 : 構造器與垃圾收集器
+
+* **實例變量與局部變量**
+
+     - 實例變量：聲明在 **類中方法之外** 的地方 ，每個對象都有獨立的值
+     - 局部變量：聲明在 **方法或方法的參數上**  ，它們是暫時的。生命週期只限於方法被放在棧上的那段期間。（也就是方法調用到執行完畢為止）
+     - 局部變量生存在棧上， 實例變量存在於對象所屬的堆空間上
+     - 當一個新建對象帶有對象引用的變量時，比如：CellPhone帶有Antenna ， Java 只會留下 Antenna 引用量
+     
+
+           ```
+
+               public  class CellPhone{
+ 
+                      private Antennaa ant;     // 只會留下變量空間
+    
+                      private Antenna ant = new Antenna();  // 在堆上佔空間
+
+               }
+
+            ```
+
+* **棧和堆**
+     - 棧：方法調用和局部變量；棧頂上方法是目前正在執行的；
+     - 堆：所有的對象；
+
+
+* **構造函數**  
+
+     - 構造函數是被賦值給引用之前就執行，表示有機會可以介入new 的過程；
+     - 可以給對象進行初始化
+        
+         
+             ```
+
+               public Duck(){
+                      size = 34 ;
+        
+               }
+
+
+            ```
+     
+     - 只有完全沒有設定構造函數的狀況下， 編譯器才會幫忙建一個無參數的構造函數
+     - 如果已寫了一個有參數的構造函數，那麼必須手寫一個無參數的構造函數
+     - 如果類有一個以上的構造函數，則參數一定要不一樣
+          
+             ```
+
+               public class Mushroom {
+
+                     public Mushroom(int size) {}
+                
+                     public Mushroom() {}
+
+                     public Mushroom(boolean isMagic){}
+
+                     public Mushroom(boolean isMagic , int size) {}
+
+                     public Mushroom(int size, boolean isMagic)
+
+       
+               }
+
+
+            ```
+
+          
+     - 構造函數在執行的時候，第一件事是執行它的父類的構造函數，這會連鎖反應到Object這個類為止。這樣的過程稱為"構造函數鏈"(Constructor Chaining)
+     - 從某個構造函數調用重載的另外一個構造函數
+          
+          * 使用this()來從某個構造函數調用同一個類的另外一個構造函數；
+          * this()只能用在構造函數中，且必須是在第一行；
+          * super() 與this()不能兼得；
+          * this就是個對對象本身的引用；
+
+     - 利用super() 來調用父類的構造方法
+     
+         
+             ```
+
+               public class Hippo extends Animal {
+
+                     public Hippo(String name){
+ 
+                            super(name)
+                      }
+       
+               }
+
+
+            ```
+
+
+* **垃圾回收的幾種案例**
+    
+     -  引用永久性的離開它的範圍
+     
+          ```
+
+               public class StackRef {
+
+                     public void foof(){
+                          barf();
+                       
+                      }
+
+                      public void barf(){
+                          Duck d  = new Duck();    //barf()執行完畢，因此d就掛了。Duck就等著被GC
+ 
+                      }
+       
+               }
+
+
+            ```
+     
+         
+     -  引用被賦值到其他的對象上
+        
+            
+          ```
+
+               public class ReRef {
+
+                       Duck d  = new Duck();
+
+                       public void  go(){
+                            d = new Duck();   // 調用go() 之後，第一個Duck就沒有任何的引用
+                       }
+               }
+
+
+            ```
+     
+           
+          
+     -  直接將引用設為null
+     
+            ```
+
+               public class ReRef {
+
+                       Duck d  = new Duck();
+
+                       public void  go(){
+                            d = null;   
+                       }
+               }
+
+
+            ```
+
+
+
+               
       
       
         
