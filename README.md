@@ -486,6 +486,31 @@ Learning the book of Head First Java
      * %tA : 表示星期幾
      * %tB ：表示幾月
      * %td : 表示幾日
+
+
+
+
+## Chapter 11 ： 異常處理
+
+* **異常是一種Exception類型的對象**
+* **RuntimeException不是由編譯器檢查**
+
+     - 編譯器關心的是檢查異常的異常，它不會注意RuntimeException 類型的異常。
+     - 方法可以用throw 關鍵字拋出異常對象：throw new FileIsTooSmallException()
+     - 如果要處理異常狀況，就把調用包在try/catch中，並將異常處理/恢復程序放在catch塊
+     
+* **try/catch/finally代碼塊**
+
+     - 如果try塊失敗：拋出異常，流程會馬上轉移到catch 塊。當catch 塊完成時，會執行finally塊。當finally 完成時，就會繼續執行其餘的部分；
+     - 如果try 成功：流程會跳過catch並轉移到finally， 當finally 完成時，就會繼續執行其餘的部分；
+     - 如果try或catch 塊有return 指令，finally還是會執行！流程會跳到finally ， 然後再回到return 指令；
+
+
+* **方法可以拋出多個異常**
+
+     - 異常是多態的，可以用異常的父類來聲明拋出的異常；
+     - 為每個需要單獨處理的異常編寫不同的catch 塊，每個catch 塊的異常對象需從小到大排列；
+     - 若不想處理異常，可以採用throws 拋出異常
   
           
            
