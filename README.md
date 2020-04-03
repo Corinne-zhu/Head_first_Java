@@ -511,8 +511,165 @@ Learning the book of Head First Java
      - 異常是多態的，可以用異常的父類來聲明拋出的異常；
      - 為每個需要單獨處理的異常編寫不同的catch 塊，每個catch 塊的異常對象需從小到大排列；
      - 若不想處理異常，可以採用throws 拋出異常
+
+
+
+
+
   
+## Chapter 12 圖形用戶接口
+
+* **JFrame**
+ 
+     - JFrame 是Java GUI 程序的基本思路， 它是屏幕上的Window 對象， 能夠最大化/最小化/關閉；
+   
+* **創建GUI步驟**
+     - 創建frame :  JFrame frame = new JFrame();
+     - 創建widget ： JButton button = new JButton("login") ;
+     - 把widget 添加到frame 上 ： frame.getContentPane().add(button);
+     - 顯示出來 ： frame.setSize(300,300) ; frame.setVisible(true) ;
+     
+
+* **事件的監聽** 
+
+     - **監聽接口**：
+          - 監聽接口讓事件源能夠調用給你；
+
+* **監聽和事件源如何溝通**
+
+     - 監聽
+
+          * 實現控件的接口(ActionListener,ItemListener,KeyListener……)
+          * 調用控件的方法:addActionListener()
+          * 實現接口的方法：actionPerformed()
+     
+     - 事件源
+          * 控件的addActionListener()， 知道哪些對象需要事件通知，調用actionPerformed()啟動事件；
           
+     - 案例說明
+     
+          ```
+
+   
+             public class SimpleGui1B implements ActionListener {
+	           // 類實現ActionListener 接口，事件會通知實現此接口的類
+	           JButton button;
+
+	           public static void main(String[] args) {
+		       SimpleGui1B gui = new SimpleGui1B();
+	           gui.go();
+
+	          }
+
+	          public void go() {
+		         JFrame frame = new JFrame("demo");
+		         this.button = new JButton("click me");
+		         this.button.addActionListener(this);  // 向按鈕註冊
+
+		         frame.getContentPane().add(this.button);
+		         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		         frame.setSize(300, 300);
+		         frame.setVisible(true);
+              }
+
+	          // 處理事件的方法
+	          @Override
+	          public void actionPerformed(ActionEvent e) {
+		         this.button.setText("I've been clicked! ");
+
+	            }
+
+            }
+             
+          ```
+
+
+
+* **內部類**
+
+     - 一個類嵌套在另一個類的內部；
+     - 內部類可以使用外部類的方法和變量；
+     - 內部類的實例一定會綁在外部類的實例上；
+
+
+* **內部類實現兩個按鈕的不同事件**
+
+     - 外類不實現ActionListener接口， 交給內部類執行；
+     - 案例說明
+     
+          ```
+
+             public class TwoButtons {
+	           JFrame frame;
+	           JLabel label;
+
+	          public static void main(String[] args) {
+	 	         TwoButtons gui = new TwoButtons();
+		         gui.go();
+	          }
+
+	          public void go() {
+		          this.frame = new JFrame();
+		          this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		          JButton labelButton = new JButton("Change Label");
+		          labelButton.addActionListener(new LabelListener());
+
+		          JButton colorButton = new JButton("Change Circle");
+		          colorButton.addActionListener(new ColorListener());
+
+		          this.label = new JLabel("I'm a label");
+		          MyDrawPanel drawPanel = new MyDrawPanel();
+
+		          this.frame.getContentPane().add(BorderLayout.SOUTH, colorButton);
+		          this.frame.getContentPane().add(BorderLayout.CENTER, drawPanel);
+		          this.frame.getContentPane().add(BorderLayout.EAST, labelButton);
+		          this.frame.getContentPane().add(BorderLayout.WEST, this.label);
+
+		          this.frame.setSize(300, 300);
+		          this.frame.setVisible(true);
+	          }
+             
+
+	           class MyDrawPanel extends JPanel {
+		         @Override
+		         public void paintComponent(Graphics g) {
+			         Graphics2D g2d = (Graphics2D) g;
+			         GradientPaint gradient = new GradientPaint(70, 70, Color.blue, 150, 150, Color.orange); // blue 是開始的顏色,
+																									
+			         g2d.setPaint(gradient);
+			         g2d.fillOval(70, 70, 100, 100);
+		          }
+	           }
+
+
+	           class LabelListener implements ActionListener {
+
+		          @Override
+		          public void actionPerformed(ActionEvent e) {
+			          TwoButtons.this.label.setText("Ouch!");
+		           }
+	            }
+
+
+	           class ColorListener implements ActionListener {
+
+		          @Override
+		           public void actionPerformed(ActionEvent e) {
+			            TwoButtons.this.frame.repaint(); // 內部類可以存取外部類的成員變量
+		           }
+	           }
+             }
+
+             
+          ```
+     
+     
+
+      
+     
+     
+  
            
        
         
