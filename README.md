@@ -451,8 +451,8 @@ Learning the book of Head First Java
      * 靜態方法可以存取靜態變量
      * 實例變量是每個實例一個
      * 靜態變量的起始動作
-          * 靜態變量會在該類的任何對象創建之前初始化
-          * 靜態變量會在該類的靜態方法之前初始化
+          - 靜態變量會在該類的任何對象創建之前初始化
+          - 靜態變量會在該類的靜態方法之前初始化
      * 靜態的final 變量是常數
      
           ```
@@ -470,22 +470,22 @@ Learning the book of Head First Java
         
             
      * final 不只用在靜態變量上
-          * final 關鍵字還可以修飾實例變量，局部變量，方法
-          * final 的變量表示不能改變它的值
-          * final 的method 表示此方法不能被覆蓋
-          * final 的類表示此類不能被繼承，即：不能再創建子類
+          - final 關鍵字還可以修飾實例變量，局部變量，方法
+          - final 的變量表示不能改變它的值
+          - final 的method 表示此方法不能被覆蓋
+          - final 的類表示此類不能被繼承，即：不能再創建子類
   
 
 * Math 的方法
 * String.format()
-     * %,d : 十進制帶有逗號的方式輸出
-     * %.2f : 小數兩位顯示浮點數
-     * %,.2f : 整數部分用逗號的方式顯示， 小數部分保留兩位小數
-     * %tc : 完整的日期與時間
-     * %tr : 只有時間
-     * %tA : 表示星期幾
-     * %tB ：表示幾月
-     * %td : 表示幾日
+     - %,d : 十進制帶有逗號的方式輸出
+     - %.2f : 小數兩位顯示浮點數
+     - %,.2f : 整數部分用逗號的方式顯示， 小數部分保留兩位小數
+     - %tc : 完整的日期與時間
+     - %tr : 只有時間
+     - %tA : 表示星期幾
+     - %tB ：表示幾月
+     - %td : 表示幾日
 
 
 
@@ -663,6 +663,171 @@ Learning the book of Head First Java
 
              
           ```
+
+
+
+
+## Chapter 13 運用Swing
+
+* **BorderLayout** 
+     - 分割成5個區域： 東/西/南/北/中；
+     - 若Button放在東側： 字數較多，會自動放寬，高度由管理器控制；
+     - 若Button放在北側： 寬度與frame同寬，高度與字體的大小放高；
+
+
+* **FlowLayout**
+     - 流向： 從左到右， 從上至下；
+     - 把面板放入東區 east
+          * JPanel 的佈局管理器默認是FlowLayout 佈局， 面板內部的組件是由FlowLayout 管理；
+          * 把面板加到框架時，面板的大小與位置受BorderLayout 的管理；
+          * 在面板panel 上增加三個button ， 這三個button是水平方向上排成一排；
+
+
+* **BoxLayout**
+
+     - 就算夠寬它還是採用垂直排列
+     - 改善上述在panel 中增加button ， button是按照水平順序排列： 把默認的FlowLayout 佈局改為BoxLayout;
+     
+          ```
+
+              public void go() {
+		           JFrame frame = new JFrame();
+		           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		           JPanel panel = new JPanel();
+		           panel.setBackground(Color.ORANGE);
+		           // 重點：改成BoxLayout 佈局
+		           panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		           // 把panel 放到框架的東側
+		           frame.getContentPane().add(BorderLayout.EAST, panel);
+
+		           // 添加一個button 到panel 上
+		           JButton btn = new JButton("Click me");// 發現panel 變寬了;
+		           panel.add(btn);
+ 
+                   // 再添加一個button
+		           JButton btnTwo = new JButton("Shock me");
+		           panel.add(btnTwo);
+
+                   // 再添加一個button
+		           JButton btnThree = new JButton("huh?");
+		           panel.add(btnThree);
+
+                   // Button 水平方向排版
+ 
+                   frame.setSize(300, 300);
+                   frame.setVisible(true);
+
+	             }
+
+
+
+
+
+
+           ```
+
+
+* **常見的Swing 組件**
+
+     - JTextField
+     - JTextArea
+     - JCheckBox
+     - JList
+
+
+
+
+## Chapter 14 序列化和文件的輸入/輸出
+
+* **對象可以被序列化也可以展開**
+
+* **序列化對象**
+
+     - 步驟
+       
+          ```
+
+
+              1. 創建出FileOutputStream
+              
+                 FileOutputStream fos  = new FileOutputStream("MyGame.ser");
+
+                 
+              2. 創建ObjectOutputStream
+              
+                 ObjectOutputStream os  = new ObjectOutputStream(fos);
+
+
+              3. 寫入對象
+
+                 os.writeObject(one);
+
+ 
+              4. 關閉ObjectOutputStream
+
+
+                 os.close;
+
+
+
+
+           ```
+     
+       
+     - 當對象被序列化時，被該對象引用的實例變量也會被序列化。且所有被引用的對象也會被序列化。
+     - 如果要讓類能夠被序列化，就要實現Serializable 接口。
+     - 如果某實例變量不能或不應該被序列化，就把它標記為transient(瞬時)的
+
+
+* **解序列化**
+     - 步驟
+     
+          ```
+
+
+              1. 創建出FileInputStream
+              
+                 FileInputStream fis  = new FileInputStream("MyGame.ser");
+
+                 
+              2. 創建ObjectInputStream
+              
+                 ObjectInputStream is  = new ObjectInputStream(fis);
+
+
+              3. 讀取對象
+
+                 is.readObject();  //讀取的順序必須與寫入的順序相同。
+                 is.readObject();
+
+                 //轉型： readObject()返回類型是Object，解序列化回來的對象還需要轉換成原來的類型。
+
+ 
+              4. 關閉ObjectInputStream
+
+
+                 is.close;
+
+
+
+           ```
+
+     - 靜態變量不會被序列化
+     
+     
+          
+
+       
+
+      
+
+
+       
+     
+
+  
      
      
 
