@@ -842,6 +842,25 @@ Learning the book of Head First Java
      - 序列化運行時使用一個稱為serialVersionUID的版本號與每個可序列化類相關聯。該序列號在反序列化過程中用於驗證序列化對象的發送者和接收者是否為該對象加載了與序列化兼容的類。
      - Java 有很多基礎類已經實現Serialzable 接口（比如：String ，Vector ）， 但是也有一些沒有實現Serialzable 接口；
      - 序列化可以解決深拷貝： 一個對象的成員變量是一個對象，這個對象的數據成員也會被保存。
+
+
+
+## Chapter 15  網絡與線程
+
+* **Java TCP Socket 編程**
+  
+     - TCP 客戶端連接的建立步驟：
+          * 創建一個Socket 實例 ：構造函數向指定的遠程主機和端口建立一個TCP 連接；
+          * 通過套接字的I/O 流與服務端通信；
+          * 使用Socket 類的close 方法關閉連接；
+         
+     - TCP 服務端的執行步驟：
+          * 創建一個ServerSocket 實例並指定本地端口， 用來監聽客戶端在該端口發送的TCP 連接請求；
+          * 重複執行
+               - 調用ServerSocket 的accept() 方法以獲取客戶端連接，並通過其返回值創建一個Socket 實例；
+               - 為返回的Socket 實例開啟新的線程， 並使用返回的Socket 實例的I/O 流與客戶端通信。通信完成後，使用Socket類的close（） 方法關閉客戶端的套接字連接。
+  
+
      
      
           
